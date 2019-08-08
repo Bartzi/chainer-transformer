@@ -1,15 +1,19 @@
+import math
+
 import chainer.functions as F
 import chainer.links as L
-import math
 
 from chainer import Chain, initializers
 
 
 class MultiHeadedAttention(Chain):
+    """
+        Attention implementation used by the Transformer. The attention implementation uses multiple attention heads.
+    """
 
     def __init__(self, num_heads, size, dropout_ratio=0.1):
         super().__init__()
-        assert size % num_heads == 0, "model size must be divisable by the number of heads"
+        assert size % num_heads == 0, "model size must be divisible by the number of heads"
 
         self.key_dimensionality = size // num_heads
         self.num_heads = num_heads
@@ -40,6 +44,14 @@ class MultiHeadedAttention(Chain):
         return F.matmul(attention_probabilities, value), attention_probabilities
 
     def __call__(self, query, key, value, mask=None):
+        """
+            Perform attention on the value array, using the query and key parameters for calculating the attention mask.
+        :param query: matrix of shape (batch_size, num_timesteps, transformer_size) that is used for attention mask calculation
+        :param key: matrix of shape (batch_size, num_timesteps, transformer_size) that is used for attention mask calculation
+        :param value: matrix of shape (batch_size, num_timesteps, transformer_size) that is used for attention calculation
+        :param mask: mask that can be used to mask out parts of the feature maps and avoid attending to those parts
+        :return: the attended feature map `value`.
+        """
         if mask is not None:
             mask = mask[:, self.xp.newaxis, ...]
 

@@ -1,6 +1,10 @@
 
 
 class NoamOptimizer:
+    """
+        This Hook implements the optimization strategy presented in the "Attention is all you need" paper
+        Section 5.3.
+    """
 
     timing = "pre"
     name = "NoamOptimizerHook"
@@ -15,4 +19,5 @@ class NoamOptimizer:
     def __call__(self, optimizer):
         self.iteration += 1
 
-        optimizer.alpha = self.factor * (self.model_size ** (-0.5) * min(self.iteration ** (-0.5), self.iteration * self.num_warmup_steps ** (-1.5)))
+        warmup_vs_step_num = min(self.iteration ** (-0.5), self.iteration * self.num_warmup_steps ** (-1.5))
+        optimizer.alpha = self.factor * self.model_size ** (-0.5) * warmup_vs_step_num

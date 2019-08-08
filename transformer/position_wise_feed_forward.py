@@ -5,6 +5,9 @@ from chainer import Chain, initializers
 
 
 class PositionwiseFeedForward(Chain):
+    """
+        Implementation of the PositionwiseFeedForward layer in a transformer
+    """
 
     def __init__(self, size, ff_size=2048, dropout_ratio=0.1):
         super().__init__()

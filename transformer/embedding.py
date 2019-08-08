@@ -1,11 +1,14 @@
-import chainer.functions as F
-import chainer.links as L
 import math
+
+import chainer.links as L
 
 from chainer import Chain, initializers
 
 
 class Embedding(Chain):
+    """
+        The Embedding used for the transformer
+    """
 
     def __init__(self, size, vocab_size):
         super().__init__()

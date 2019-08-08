@@ -15,6 +15,7 @@ class CopyDataset(DatasetMixin):
         return 10000
 
     def get_example(self, i):
+        # we randomly create a vector of `max_len` numbers and set the first element to be the start symbol
         data = numpy.random.randint(1, self.max_value, size=self.max_len, dtype=numpy.int32)
         data[0] = self.start_symbol
         return {

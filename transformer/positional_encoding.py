@@ -7,6 +7,10 @@ from chainer import Chain
 
 
 class PositionalEncoding(Chain):
+    """
+        Positional encoding, based on sin and cos functions as proposed in section 3.5
+        of the paper "Attention is all you need"
+    """
 
     def __init__(self, size, dropout_ratio=0.1, max_len=5000):
         super().__init__()

@@ -17,7 +17,9 @@ class CopyTransformerUpdater(StandardUpdater):
         optimizer = self.get_optimizer('main')
         net = optimizer.target
 
+        # for training we need one label less, since we right shift the output of the network
         predictions = net(batch['data'], batch['label'][:, :-1])
+
         batch_size, num_steps, vocab_size = predictions.shape
         predictions = F.reshape(predictions, (-1, vocab_size))
         labels = batch['label'][:, 1:].ravel()
